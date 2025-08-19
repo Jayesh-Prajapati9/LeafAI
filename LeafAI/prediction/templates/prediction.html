@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-3xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-2xl">
+    <h2 class="text-2xl font-bold text-center text-green-600">🌱 LeafAI Prediction</h2>
+
+    <form method="POST" enctype="multipart/form-data" class="mt-6 flex flex-col items-center">
+        {% csrf_token %}
+        <input type="file" name="image" accept="image/*" class="mb-4 border rounded p-2 w-full">
+        <button type="submit" class="px-6 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg">
+            Predict Disease
+        </button>
+    </form>
+
+    {% if prediction %}
+    <div class="mt-6 text-center">
+        <p class="text-lg font-semibold">Prediction: 
+            <span class="text-green-700">{{ prediction }}</span>
+        </p>
+        <p class="text-gray-600">Confidence: {{ confidence }}%</p>
+        {% if image_url %}
+            <img src="{{ image_url }}" alt="Uploaded Image" class="mt-4 rounded-lg shadow-md mx-auto w-64">
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
