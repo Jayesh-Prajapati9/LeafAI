@@ -5,4 +5,4 @@ from prediction.models import Prediction
 @login_required
 def dashboard(request):
     predictions = Prediction.objects.filter(user=request.user).order_by("-created_at")
-    return render(request, "dashboard.html")
+    return render(request, "dashboard.html",{"predictions":predictions})
