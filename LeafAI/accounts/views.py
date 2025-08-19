@@ -43,7 +43,11 @@ def login_view(request):
     return render(request, "login.html")
 
 
-def logout(request):
+def logout_view(request):
     logout(request)
-    messages.success(request, "You have been logged out.")
-    return redirect("pages:home")
+    return redirect("home")
+
+def login_redirect(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')
+    return redirect('login')
