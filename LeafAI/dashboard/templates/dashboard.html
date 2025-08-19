@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-6 py-8">
+  <h1 class="text-3xl font-bold text-green-800 mb-6">My Dashboard</h1>
+
+  {% if predictions %}
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for prediction in predictions %}
+    <div class="bg-white rounded-2xl shadow-md p-4 hover:shadow-lg transition">
+      <img src="{{ prediction.image.url }}" alt="Leaf" class="w-full h-40 object-cover rounded-xl mb-4">
+      <h2 class="text-xl font-semibold text-green-700">{{ prediction.plant_name }}</h2>
+      <p class="text-gray-700">Disease: 
+        <span class="font-medium text-red-600">{{ prediction.disease }}</span>
+      </p>
+      <p class="text-gray-600">Confidence: {{ prediction.confidence|floatformat:2 }}%</p>
+      <p class="text-gray-500 text-sm">Uploaded on {{ prediction.created_at|date:"M d, Y H:i" }}</p>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-gray-600">You haven’t made any predictions yet. Try uploading an image!</p>
+  {% endif %}
+</div>
+{% endblock %}
