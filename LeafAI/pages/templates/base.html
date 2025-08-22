@@ -1,19 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>LeafAI</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-50 text-gray-900">
   <!-- Navbar -->
   <nav class="bg-green-600 text-white px-6 py-4 shadow-md">
     <div class="container mx-auto flex justify-between items-center">
+      <!-- Logo -->
       <a href="{% url 'home' %}" class="text-2xl font-bold tracking-wide">LeafAI</a>
-      <div class="space-x-6">
+
+      <!-- Links -->
+      <div class="space-x-6 flex items-center">
         <a href="{% url 'home' %}" class="hover:text-green-200">Home</a>
         <a href="{% url 'about' %}" class="hover:text-green-200">About</a>
         <a href="{% url 'contact' %}" class="hover:text-green-200">Contact</a>
+
+        <!-- User Section -->
+        {% if user.is_authenticated %}
+        <div class="ml-6 relative group">
+          <button id="userMenuBtn" class="flex items-center space-x-2 bg-green-700 px-3 py-2 rounded-lg hover:bg-green-800 transition">
+            <span class="font-semibold">{{ user.username|capfirst }}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <!-- Dropdown -->
+          <div id="userMenu" class="absolute right-0 mt-2 w-40 bg-white text-gray-800 rounded-lg shadow-md hidden">
+            <a href="{% url 'dashboard' %}" class="block px-4 py-2 hover:bg-green-100">Dashboard</a>
+            <a href="{% url 'logout' %}" class="block px-4 py-2 hover:bg-green-100">Logout</a>
+          </div>
+        </div>
+        {% else %}
+        <a href="{% url 'login_redirect' %}"
+          class="ml-6 bg-white text-green-700 px-4 py-2 rounded-lg shadow hover:bg-green-100">
+          Login
+        </a>
+        <a href="{% url 'register' %}" class="ml-2 bg-green-800 px-4 py-2 rounded-lg shadow hover:bg-green-900">
+          Sign Up
+        </a>
+        {% endif %}
       </div>
     </div>
   </nav>
@@ -27,5 +58,23 @@
   <footer class="bg-green-700 text-white text-center py-4 mt-10">
     <p>&copy; 2025 LeafAI. All rights reserved.</p>
   </footer>
+
+  <script>
+    const btn = document.getElementById("userMenuBtn");
+    const menu = document.getElementById("userMenu");
+
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      menu.classList.toggle("hidden");
+    });
+
+    // close when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.add("hidden");
+      }
+    });
+  </script>
 </body>
+
 </html>
