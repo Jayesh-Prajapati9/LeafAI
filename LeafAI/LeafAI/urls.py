@@ -20,6 +20,9 @@ from pages import urls as pageUrls
 from accounts import urls as accUrls
 from dashboard import urls as dashUrls
 from prediction import urls as predictUrls
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include(pageUrls)), 
@@ -27,3 +30,5 @@ urlpatterns = [
     path("dashboard/", include(dashUrls)),  # login, register, dashboard
     path("predict/", include(predictUrls)),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
