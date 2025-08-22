@@ -1,4 +1,3 @@
-# === Imports ===
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
@@ -10,7 +9,7 @@ from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from tensorflow.keras.utils import img_to_array
 
 # === Constants ===
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # current app dir
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "plant_disease_mobilenetv2.h5")
 LABEL_BINARIZER_PATH = os.path.join(BASE_DIR, "label_binarizer.pkl")
 IMG_SIZE = (224, 224)
@@ -23,7 +22,6 @@ with open(LABEL_BINARIZER_PATH, "rb") as f:
 
 class_labels = list(label_map.keys())
 
-# === Function to load and preprocess an image ===
 def load_and_prepare_image(image_path):
     image = cv2.imread(image_path)
     if image is None:
@@ -36,7 +34,6 @@ def load_and_prepare_image(image_path):
     image = np.expand_dims(image, axis=0)
     return image
 
-# === Predict on a test image ===
 def predict_image(image_path):
     try:
         image = load_and_prepare_image(image_path)
@@ -54,13 +51,8 @@ def predict_image(image_path):
         # plt.title(f"{predicted_label} ({confidence:.2f}%)")
         # plt.axis("off")
         # plt.show()
-        return predicted_label, confidence, image_path
+        return predicted_label, confidence
 
         
     except Exception as e:
         print(f"Error: {e}")
-
-# === TEST IMAGE PATH ===
-# Replace with the path of the image you want to test
-# test_image_path = "testing_images/pepper_bell_healthy.jpg"  # Example
-# predict_image(test_image_path)
