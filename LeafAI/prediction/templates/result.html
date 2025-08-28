@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body
+    class="bg-gradient-to-r from-green-100 via-green-200 to-green-100 flex flex-col items-center justify-start min-h-screen py-10">
+
+    <!-- Navbar -->
+    <nav class="bg-green-600 text-white px-6 py-4 shadow-md w-full fixed top-0">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="{% url 'home' %}" class="text-2xl font-bold tracking-wide">LeafAI</a>
+            <div class="space-x-6">
+                <a href="{% url 'home' %}" class="hover:text-green-200 transition">Home</a>
+                <a href="{% url 'about' %}" class="hover:text-green-200 transition">About</a>
+                <a href="{% url 'contact' %}" class="hover:text-green-200 transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Result Card -->
+    <div
+        class="mt-24 bg-white/70 backdrop-blur-md shadow-2xl rounded-3xl p-10 max-w-lg w-full text-center animate-fadeIn">
+        <h1 class="text-3xl font-bold mb-6 text-green-700">Leaf Disease Prediction</h1>
+
+        {% if image_url %}
+        <div class="flex justify-center mb-6">
+            <img src="{{ image_url }}" alt="Uploaded Leaf"
+                class="rounded-2xl shadow-lg w-64 h-64 object-cover transform hover:scale-105 transition duration-300">
+        </div>
+        {% endif %}
+
+        <div class="space-y-4">
+            <p class="text-xl font-semibold text-gray-800">
+                <span class="text-green-600">Disease:</span> {{ prediction }}
+            </p>
+            <p class="text-xl font-semibold">
+                <span class="text-green-600">Confidence:</span>
+                <span
+                    class="{% if confidence >= 80 %}text-green-600{% elif confidence >= 50 %}text-yellow-500{% else %}text-red-500{% endif %}">
+                    {{ confidence }}%
+                </span>
+            </p>
+        </div>
+
+        <div class="mt-8 flex justify-center gap-2">
+            <a href="{% url 'predict' %}"
+                class="px-8 py-3 bg-green-600 text-white rounded-xl shadow-lg hover:bg-green-700 hover:scale-105 transition transform">
+                Predict Another
+            </a>
+            <a href="{% url 'dashboard' %}"
+                class="px-8 py-3 bg-blue-600 text-white rounded-xl shadow-lg hover:bg-blue-700 hover:scale-105 transition transform">
+                Go to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Fade-in animation -->
+    <style>
+        .animate-fadeIn {
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+</body>
+
+</html>
